@@ -1,0 +1,110 @@
+<html>  
+ <head>  
+ <link href='http://fonts.googleapis.com/css?family=Chango' rel='stylesheet' type='text/css'>
+  <script type="application/javascript">  
+  
+  function spinInPlace(fnRender, ctx, cX, cY, width, height)
+  {
+	  ctx.save();
+	  ctx.translate(cX, cY);
+	  ctx.rotate(i*0.1);
+	  ctx.translate(-width/2, height/2);
+	
+	  fnRender();
+	  
+	  ctx.restore();
+  }
+  
+  function Yoyo(fnRender, ctx, cX, cY, width, height)
+  {
+  	ctx.save();
+	ctx.translate(cX, cY);
+	ctx.translate(-width/2, height/2);
+	ctx.scale(Math.abs(Math.sin(i*0.1)), 1);
+	
+	fnRender();
+	  
+	ctx.restore();
+  }
+  
+  
+  function spinY(fnRender, ctx, cX, cY, width, height)
+  {
+  	ctx.save();
+	ctx.translate(cX, cY);
+	
+	ctx.scale(Math.sin(i*0.1), 1);
+	
+	ctx.translate(-width/2, height/2);
+	
+	fnRender();
+	  
+	ctx.restore();
+  }
+  
+  var i = 1;
+    function draw() {  
+      var canvas = document.getElementById("canvas");  
+      if (canvas.getContext) {  
+        var ctx = canvas.getContext("2d");  
+       ctx.clearRect(0,0,300,300);
+        ctx.fillStyle = "rgb(200,0,0)";  
+        ctx.fillRect (10, 10, 55, 50);  
+  
+        ctx.fillStyle = "rgba(0, 0, 200, 0.5)";  
+        ctx.fillRect (30, 30, 55, 50);  
+        
+        ctx.shadowOffsetX = 2;  
+  ctx.shadowOffsetY = 2;  
+  ctx.shadowBlur = 2;  
+  ctx.shadowColor = "rgba(0, 0, 0, 0.5)";  
+   
+  ctx.save();
+  i++;
+  
+  
+  ctx.font = "20px Chango";  
+  ctx.fillStyle = "Black";  
+
+  var sText = "Sample String";
+  var textWidth = ctx.measureText (sText);
+
+  var fnRender = function()
+{  
+  	  ctx.fillText(sText, 0, 0);  
+};
+  //console.log(textWidth);
+  spinInPlace(fnRender, ctx, 100, 100, textWidth.width, 20);
+  
+  spinY(fnRender, ctx, 200, 200, textWidth.width, 20);
+  
+  Yoyo(fnRender, ctx, 150, 150, textWidth.width, 20);
+  
+  
+  var image = new Image();
+  image.src = "http://c.www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png";
+  
+  var fnRender = function()
+  {
+      ctx.drawImage(image, 0, 0);
+  };
+  
+  
+  spinInPlace(fnRender, ctx, 100, 100, textWidth.width, 20);
+  
+  spinY(fnRender, ctx, 200, 200, textWidth.width, 20);
+  
+  Yoyo(fnRender, ctx, 150, 150, textWidth.width, 20);
+  
+  setTimeout(draw, 30);
+      }
+    }  
+  </script>  
+ </head>  
+ <body onload="setTimeout(draw, 20);">  
+   <canvas id="canvas" width="300" height="300"></canvas>  
+ </body>  
+ <div style="font-family:Chango;visibility:hidden;width:0;height:0;">
+ Test
+ </div>
+</html>  
