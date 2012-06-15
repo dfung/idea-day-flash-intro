@@ -48,3 +48,13 @@ vp.intro.spinY = function(fnRender, ctx, cX, cY, width, height)
 
     ctx.restore();
 };  
+
+vp.intro.zoom = function(fnRender, ctx, cX, cY, width, height)
+{
+	ctx.save();
+	ctx.translate(cX, cY);
+	var scaledVal = Math.min(vp.intro.timeIndex * 0.03, 1);
+	ctx.scale(scaledVal, scaledVal);
+	fnRender();
+	ctx.restore();
+};
