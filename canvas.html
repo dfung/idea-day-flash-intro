@@ -44,14 +44,8 @@
                   ctx.fillText(sText, 0, 0);
               };
               //console.log(textWidth);
-              vp.intro.spinInPlace(fnRender, ctx, 100, 100, textWidth.width, 20);
 
-              vp.intro.spinY(fnRender, ctx, 200, 200, textWidth.width, 20);
-
-              vp.intro.Yoyo(fnRender, ctx, 150, 150, textWidth.width, 20);
-
-              vp.intro.flyIn(fnRender, ctx, 350, 150, textWidth.width, 20);
-              vp.intro.zoom(fnRender, ctx, 250, 150, textWidth.width, 20);
+              vp.intro.dissolve(fnRender, ctx, 50, 50, textWidth.width, 20);
 
               var image = new Image();
               image.src = "http://c.www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png";
@@ -62,11 +56,6 @@
               };
 
 
-              vp.intro.spinInPlace(fnRender, ctx, 320, 100, image.width, image.height);
-
-              vp.intro.spinY(fnRender, ctx, 520, 200, image.width, image.height);
-
-              vp.intro.Yoyo(fnRender, ctx, 370, 150, image.width, image.height);
 
               vp.intro.flyIn(fnRender, ctx, 450, 200, image.width, image.height);
               if (!blinds2)
