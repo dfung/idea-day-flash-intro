@@ -83,6 +83,11 @@ vp.intro.animation = 0;
   		vp.intro.text = $('#usertext').val();
   		vp.intro.animation =  $('input:radio[name=animationo]:checked').val();
   		vp.intro.viewImage =  $('input:radio[name=imageo]:checked').val() == "1";
+		if($('input:radio[name=musico]:checked').val() == "1")
+		{
+			$('#audio-player').attr('src', $('#musicurl').val());
+			$('#audio-player')[0].play();
+		}
 		vp.intro.draw();
 	}
 	
@@ -182,6 +187,7 @@ vp.intro.animation = 0;
         </div><!--/span-->
         <div class="span7">
    <canvas id="canvas" width="500" height="300"></canvas>  
+   <audio id="audio-player" />
         	
 				</div>
 			</div> <!--row-->
@@ -244,6 +250,7 @@ vp.intro.animation = 0;
 				$('#fillimage').bind('click', function () {
 					$('#imageurl').val("http://c.www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png");
 				})		
+				$('#preview').bind('click', vp.intro.previewCanvas);		
 		</script>
   </body>
 </html>
