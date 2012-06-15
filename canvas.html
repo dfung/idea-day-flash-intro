@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html>  
  <!-- Test comment -->
  <head>  
@@ -10,7 +12,7 @@
           if (canvas.getContext)
           {
               var ctx = canvas.getContext("2d");
-              ctx.clearRect(0, 0, 300, 300);
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
               ctx.fillStyle = "rgb(200,0,0)";
               ctx.fillRect(10, 10, 55, 50);
 
@@ -43,21 +45,24 @@
 
               vp.intro.Yoyo(fnRender, ctx, 150, 150, textWidth.width, 20);
 
+              vp.intro.flyIn(fnRender, ctx, 350, 150, textWidth.width, 20);
 
               var image = new Image();
               image.src = "http://c.www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png";
 
               var fnRender = function()
               {
-                  ctx.drawImage(image, 0, 0);
+                  ctx.drawImage(image, 0, -image.height);
               };
 
 
-              vp.intro.spinInPlace(fnRender, ctx, 100, 100, textWidth.width, 20);
+              vp.intro.spinInPlace(fnRender, ctx, 320, 100, image.width, image.height);
 
-              vp.intro.spinY(fnRender, ctx, 200, 200, textWidth.width, 20);
+              vp.intro.spinY(fnRender, ctx, 520, 200, image.width, image.height);
 
-              vp.intro.Yoyo(fnRender, ctx, 150, 150, textWidth.width, 20);
+              vp.intro.Yoyo(fnRender, ctx, 370, 150, image.width, image.height);
+
+              vp.intro.flyIn(fnRender, ctx, 450, 200, image.width, image.height);
 
               setTimeout(vp.intro.draw, 30);
           }
@@ -65,9 +70,13 @@
   </script>  
  </head>  
  <body onload="setTimeout(vp.intro.draw, 20);">  
-   <canvas id="canvas" width="300" height="300"></canvas>  
- </body>  
- <div style="font-family:Chango;visibility:hidden;width:0;height:0;">
+   <canvas id="canvas" width="2000" height="1000"></canvas>  
+   <!-- <audio autoplay="autoplay" src="http://square-peach.com/samples/xmp3Player-mini/Jazz/Manhattan-SAMPLE.mp3" /> -->
+
+   <!-- Needed to preload web font to work with canvas.  Note delay on initial vp.intro.draw -->
+    <div style="font-family:Chango;visibility:hidden;width:0;height:0;">
  Test
  </div>
+
+ </body>  
 </html>  

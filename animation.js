@@ -47,4 +47,23 @@ vp.intro.spinY = function(fnRender, ctx, cX, cY, width, height)
     fnRender();
 
     ctx.restore();
-};  
+};
+
+
+vp.intro.flyIn = function(fnRender, ctx, cX, cY, width, height)
+{
+    ctx.save();
+    ctx.translate(cX, cY);
+
+    if (vp.intro.timeIndex < 50)
+    {
+        ctx.globalAlpha = (vp.intro.timeIndex - 1) / 50;
+        ctx.scale(50 - vp.intro.timeIndex, 50 - vp.intro.timeIndex);
+    }
+
+    ctx.translate(-width / 2, height / 2);
+
+    fnRender();
+
+    ctx.restore();
+};
