@@ -84,7 +84,7 @@ vp.intro.fadeIn = function(fnRender, ctx, cX, cY, width, height)
 {
 	ctx.save();
 	ctx.translate(cX, cY);
-	var imgData = ctx.getImageData(cX, cY, width, height);
+
 	ctx.globalAlpha = Math.min(vp.intro.timeIndex * 0.01, 1);
 	fnRender();
 	ctx.restore();
