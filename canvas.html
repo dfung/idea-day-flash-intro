@@ -9,7 +9,7 @@
  <script type="text/javascript" src="animation.js"></script>
 
   <script type="application/javascript">
-      var blinds1, blinds2;
+      var blinds1, blinds2, blinds3;
 
       vp.intro.draw = function()
       {
@@ -31,8 +31,8 @@
 
               ctx.save();
               vp.intro.timeIndex++;
-              
-              
+
+
               ctx.font = "20px Chango";
               ctx.fillStyle = "Black";
 
@@ -55,7 +55,11 @@
                   ctx.drawImage(image, 0, -image.height);
               };
 
+              vp.intro.spinInPlace(fnRender, ctx, 320, 100, image.width, image.height);
 
+              vp.intro.spinY(fnRender, ctx, 520, 200, image.width, image.height);
+
+              vp.intro.Yoyo(fnRender, ctx, 370, 150, image.width, image.height);
 
               vp.intro.flyIn(fnRender, ctx, 450, 200, image.width, image.height);
               if (!blinds2)
@@ -67,6 +71,33 @@
               {
                   blinds2.step();
               }
+
+              var image2 = new Image();
+              image2.src = "http://i133.photobucket.com/albums/q62/ryannayrpics/celtics.png";
+              var fnRender = function()
+              {
+                  ctx.drawImage(image2, 0, -image2.height);
+              };
+
+              vp.intro.spinInPlace(fnRender, ctx, 320, 420, image2.width, image2.height);
+
+              vp.intro.spinY(fnRender, ctx, 150, 650, image2.width, image2.height);
+
+              vp.intro.Yoyo(fnRender, ctx, 670, 820, image2.width, image2.height);
+
+              vp.intro.flyIn(fnRender, ctx, 850, 250, image2.width, image2.height);
+
+              if (!blinds3)
+              {
+                  blinds3 = new vp.intro.Blinds(fnRender, ctx, 700, 500, image2.width, image2.height);
+                  blinds3.step();
+              }
+              else
+              {
+                  blinds3.step();
+              }
+
+              vp.intro.fadeIn(fnRender, ctx, 950, 450, image2.width, image2.height);
 
               var fnRender = function()
               {
