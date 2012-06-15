@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-		<link rel=stylesheet type=text/css href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/ui-darkness/jquery-ui.css"> 
+		<link rel=stylesheet type=text/css href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/smoothness/jquery-ui.css"> 
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -36,7 +36,10 @@
 			padding-left: 25px;
 		}
 		}
-		
+		span .ui-button {
+			font-size : 100px;
+		}
+		}
     </style>
     <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -60,14 +63,18 @@
               ctx.save();
               vp.intro.timeIndex++;
 
+              var y = 200;
               if (vp.intro.viewImage)
               {
-                  var img = vp.intro.addImage(ctx, "http://i133.photobucket.com/albums/q62/ryannayrpics/celtics.png", 0, 439);
+                  var img = new Image();
+                  img.src = $("#imageurl").val();
+                  debugger;
+                  var img = vp.intro.addImage(ctx, img, 0, y + (img.height / 2));
               }
 
               if (img)
               {
-                  ctx.translate(img.width + 10, 0);
+                  ctx.translate(img.width + 10, -img.height);
               }
 
               var renderText = function()
@@ -75,7 +82,7 @@
                   ctx.fillText(vp.intro.text, 0, 0);
               };
 
-              var y = 200;
+
               var fontSize = 100;
               ctx.font = "100px Chango";
               ctx.fillStyle = "Black";
@@ -99,6 +106,18 @@
                       break;
                   case "zoom":
                       vp.intro.zoom(renderText, ctx, textWidth.width / 2, y, textWidth.width, fontSize);
+                      break;
+                  case "vspin":
+                      vp.intro.spinInPlace(renderText, ctx, textWidth.width / 2, y, textWidth.width, fontSize);
+                      break;
+                  case "yoyo":
+                      vp.intro.Yoyo(renderText, ctx, textWidth.width / 2, y, textWidth.width, fontSize);
+                      break;
+                  case "flyin":
+                      vp.intro.flyIn(renderText, ctx, textWidth.width / 2, y, textWidth.width, fontSize);
+                      break;
+                  case "fadein":
+                      vp.intro.fadeIn(renderText, ctx, textWidth.width / 2, y, textWidth.width, fontSize);
                       break;
                   case "blinds":
                       if (!dissolve)
@@ -131,10 +150,16 @@ vp.intro.previewCanvas = function()
 {
     vp.intro.text = $('#usertext').val();
     vp.intro.animation = $('input:radio[name=animationo]:checked').val();
+    debugger;
     vp.intro.viewImage = $('input:radio[name=imageo]:checked').val() == "1";
 
     dissolve = null;
     vp.intro.timeIndex = 0;
+    if ($('input:radio[name=musico]:checked').val() == "1")
+    {
+        $('#audio-player').attr('src', $('#musicurl').val());
+        $('#audio-player')[0].play();
+    }
     clearTimeout(drawTimeout);
     vp.intro.draw();
 }
@@ -183,30 +208,51 @@ vp.intro.previewCanvas = function()
 					  <div class=animatetitle>Want an image?</div>
 				    <form action="#" method="get" accept-charset="utf-8">
 				    	<div class="animationdiv">
-			            <label class=animlabel ><input class=animradio name="imageo" id="image-01" value="1" type="radio" />Yes</label><br>
-			            <label class=animlabel ><input class=animradio name="imageo" id="image-01" value="2" type="radio" checked />No</label></br>
+			            <label class=animlabel ><input class=animradio name="imageo" id="image-01" value="1" type="radio" />Yes</label>
+			            <input id="imageurl" disabled=true type="text"></input><span id="fillimage">&lt;</span>	
+			            <label class=animlabel ><input class=animradio name="imageo" id="image-02" value="2" type="radio" checked />No</label></br>
 							</div>
 						</form>
 				</div>
 				<h1><a>Background</a></h1>
-					<div>Contents of the Background tab</div>
+				<div>
+					  <div class=animatetitle>Want a background?</div>
+				    <form action="#" method="get" accept-charset="utf-8">
+				    	<div class="animationdiv">
+			            <label class=animlabel ><input class=animradio name="backgroundo" id="background-01" value="1" type="radio" />Yes</label>
+			            <input id="backgroundurl" disabled=true type="text"></input><span id="fillbackground">&lt;</span>
+			            <label class=animlabel ><input class=animradio name="backgroundo" id="background-02" value="2" type="radio" checked />No</label></br>
+							</div>
+						</form>
+				</div>
 				<h1><a>Sound</a></h1>
-					<div>Contents of the Sound tab</div>
+					<div>
+					  <div class=animatetitle>Play music?</div>
+				    <form action="#" method="get" accept-charset="utf-8">
+				    	<div class="animationdiv">
+			            <label class=animlabel ><input class=animradio name="musico" id="music-01" value="1" type="radio" />Yes</label>
+			            <input id="musicurl" disabled=true type="text"></input><span id="fillmusic">&lt;</span>
+			            <label class=animlabel ><input class=animradio name="musico" id="music-02" value="2" type="radio" checked />No</label></br>
+							</div>
+						</form>
+					</div>
 				<h1><a>Animation</a></h1>
 				<div>
 					  <div class=animatetitle>Choose Animation</div>
 				    <form action="#" method="get" accept-charset="utf-8">
 				    	<div class="animationdiv">
+
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="dissolve" type="radio" checked />Dissolve</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="spin" type="radio"  />Spin</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="3" type="radio"  />Random Bars</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="4" type="radio"  />Random</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-02" value="spin" type="radio"  />Spin</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-03" value="flyin" type="radio"  />Fly-in</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-04" value="yoyo" type="radio"  />Yoyo</label><br>
+                        <label class=animlabel ><input class=animradio name="animationo" id="radio-09" value="fadein" type="radio"  />Fade in</label><br>
 							</div>
 				    	<div class="animationdiv">
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="zoom" type="radio"  />Zoom</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="6" type="radio"  />Swivel</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="blinds" type="radio"  />Blinds</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="8" type="radio"  />None</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-05" value="zoom" type="radio"  />Zoom</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-06" value="vspin" type="radio"  />Spin Vertical</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-07" value="blinds" type="radio"  />Blinds</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-08" value="none" type="radio"  />None</label><br>
 							</div>							
 			    </form>
 				</div>						
@@ -215,7 +261,9 @@ vp.intro.previewCanvas = function()
 
         </div><!--/span-->
         <div class="span7">
+
    <canvas id="canvas" width="1600" height="500"></canvas>  
+<audio id="audio-player" />
         	
 				</div>
 			</div> <!--row-->
@@ -256,8 +304,35 @@ vp.intro.previewCanvas = function()
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
 		<script>
 				$("#accordion").accordion({autoHeight: false});
-				$("#preview").button();
-				$('#preview').bind('click', vp.intro.previewCanvas);
+				$("#preview, #fillimage, #fillbackground, #fillmusic").button();
+				$('#image-01').bind('click', function () {
+					$('#imageurl').removeAttr('disabled');
+				})
+				$('#image-02').bind('click', function () {
+					$('#imageurl').attr('disabled', true);
+				})		
+				$('#background-01').bind('click', function () {
+					$('#backgroundurl').removeAttr('disabled');
+				})
+				$('#background-02').bind('click', function () {
+					$('#backgroundurl').attr('disabled', true);
+				})			
+				$('#music-01').bind('click', function () {
+					$('#musicurl').removeAttr('disabled');
+				})
+				$('#music-02').bind('click', function () {
+					$('#musicurl').attr('disabled', true);
+				})			
+				$('#fillimage').bind('click', function () {
+					$('#imageurl').val("http://c.www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png");
+				})		
+				$('#preview').bind('click', vp.intro.previewCanvas);		
+				$('#fillbackground').bind('click', function () {
+					$('#backgroundurl').val("http://4.bp.blogspot.com/-BzWbMKZQ4IQ/Ty8loRolQfI/AAAAAAAAFOY/uXUvvd6j1kc/s640/patriots.jpg");
+				})	
+				$('#fillmusic').bind('click', function () {
+					$('#musicurl').val("http://square-peach.com/samples/xmp3Player-mini/Jazz/Manhattan-SAMPLE.mp3");
+				})	
 		</script>
   </body>
 </html>

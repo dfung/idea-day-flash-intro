@@ -9,11 +9,9 @@ if(!vp.intro)
 }
 
 
-vp.intro.addImage = function(ctx, imgSrc, x, y)
+vp.intro.addImage = function(ctx, img, x, y)
 {
     ctx.save();
-    var img = new Image();
-    img.src = imgSrc;
     ctx.translate(x, y);
     ctx.drawImage(img, 0, -img.height);
     ctx.restore();
