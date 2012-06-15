@@ -56,12 +56,25 @@
           if (canvas.getContext)
           {
               var ctx = canvas.getContext("2d");
+		if(vp.intro.clearCanvas)
+		{
+			// Store the current transformation matrix
+			ctx.save();
+
+			// Use the identity matrix while clearing the canvas
+			ctx.setTransform(1, 0, 0, 1, 0, 0);
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			// Restore the transform
+			ctx.restore();
+				
+		}
               ctx.save();
               vp.intro.timeIndex++;
               
 	      if(vp.intro.viewImage)
 	      { 
-		      vp.intro.addImage(ctx, "http://www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png", 100, 100);
+		      vp.intro.addImage(ctx, vp.intro.image, 300, 300);
 	      }
 	      vp.intro.addText(ctx, vp.intro.text, 200, 200);
 
@@ -77,17 +90,22 @@
 vp.intro.viewImage = false;
 vp.intro.text = "";
 vp.intro.animation = 0;
+vp.intro.image = "";
+vp.intro.clearCanvas = false;
 
 	vp.intro.previewCanvas = function()
 	{
   		vp.intro.text = $('#usertext').val();
   		vp.intro.animation =  $('input:radio[name=animationo]:checked').val();
   		vp.intro.viewImage =  $('input:radio[name=imageo]:checked').val() == "1";
+		vp.intro.image = $('#imageurl').val();
+
 		if($('input:radio[name=musico]:checked').val() == "1")
 		{
 			$('#audio-player').attr('src', $('#musicurl').val());
 			$('#audio-player')[0].play();
 		}
+		vp.intro.clearCanvas = true;
 		vp.intro.draw();
 	}
 	
