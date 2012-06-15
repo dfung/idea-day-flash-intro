@@ -58,10 +58,23 @@
           if (canvas.getContext)
           {
               var ctx = canvas.getContext("2d");
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+		if(vp.intro.clearCanvas)
+		{
+			// Store the current transformation matrix
+			ctx.save();
+
+			// Use the identity matrix while clearing the canvas
+			ctx.setTransform(1, 0, 0, 1, 0, 0);
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			// Restore the transform
+			ctx.restore();
+				
+		}
               ctx.save();
               vp.intro.timeIndex++;
+              
 
               var y = 200;
               if (vp.intro.viewImage)
@@ -145,12 +158,15 @@
 vp.intro.viewImage = false;
 vp.intro.text = "";
 vp.intro.animation = 0;
+vp.intro.image = "";
+vp.intro.clearCanvas = false;
+
 
 vp.intro.previewCanvas = function()
 {
     vp.intro.text = $('#usertext').val();
     vp.intro.animation = $('input:radio[name=animationo]:checked').val();
-    debugger;
+
     vp.intro.viewImage = $('input:radio[name=imageo]:checked').val() == "1";
 
     dissolve = null;
@@ -161,6 +177,7 @@ vp.intro.previewCanvas = function()
         $('#audio-player')[0].play();
     }
     clearTimeout(drawTimeout);
+vp.intro.clearCanvas = true;
     vp.intro.draw();
 }
 	
@@ -242,6 +259,7 @@ vp.intro.previewCanvas = function()
 				    <form action="#" method="get" accept-charset="utf-8">
 				    	<div class="animationdiv">
 
+
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="dissolve" type="radio" checked />Dissolve</label><br>
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-02" value="spin" type="radio"  />Spin</label><br>
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-03" value="flyin" type="radio"  />Fly-in</label><br>
@@ -253,6 +271,7 @@ vp.intro.previewCanvas = function()
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-06" value="vspin" type="radio"  />Spin Vertical</label><br>
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-07" value="blinds" type="radio"  />Blinds</label><br>
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-08" value="none" type="radio"  />None</label><br>
+
 							</div>							
 			    </form>
 				</div>						
@@ -264,6 +283,7 @@ vp.intro.previewCanvas = function()
 
    <canvas id="canvas" width="1600" height="500"></canvas>  
 <audio id="audio-player" />
+
         	
 				</div>
 			</div> <!--row-->
