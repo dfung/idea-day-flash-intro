@@ -113,7 +113,7 @@
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="8" type="radio"  />None</label><br>
 							</div>							
 			    </form>
-				</div>								
+				</div>						
 			</div>
 
 
@@ -121,6 +121,14 @@
         <div class="span7">
         	Preview goes here
 				</div>
+			</div> <!--row-->
+			<br>
+			<div class="row">
+				<div class="span4 offset2">
+					<span id="preview"> Preview </span>		
+				</div>
+				<div class="span4">
+					</div>
 			</div>
       <hr>
 
@@ -129,6 +137,7 @@
       </footer>
 
     </div><!--/.fluid-container-->
+			
 
     <!-- Le javascript
     ================================================== -->
@@ -150,6 +159,11 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
 		<script>
 				$("#accordion").accordion({autoHeight: false});
+				$("#preview").button();
+				$('#preview').bind('click', function() {
+  				alert('User text is ' + $('#usertext').val());
+  				alert('Value of radio button is ' + $('input:radio[name=animationo]:checked').val()	)
+				});
 		</script>
   </body>
 </html>
