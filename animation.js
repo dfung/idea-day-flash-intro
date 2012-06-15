@@ -84,7 +84,7 @@ vp.intro.fadeIn = function(fnRender, ctx, cX, cY, width, height)
 {
 	ctx.save();
 	ctx.translate(cX, cY);
-	var imgData = ctx.getImageData(cX, cY, width, height);
+
 	ctx.globalAlpha = Math.min(vp.intro.timeIndex * 0.01, 1);
 	fnRender();
 	ctx.restore();
@@ -128,6 +128,70 @@ vp.intro.Blinds = function(fnRender, ctx, cX, cY, width, height)
             for (var i = 0; i < visible.length; i++)
             {
                 ctx.rect(0, visible[i], width, blindHeight);
+            }
+            ctx.clip();
+        }
+
+        ctx.translate(0, height);
+
+        fnRender();
+
+        ctx.translate(0, -height);
+
+        ctx.restore();
+    };
+};
+
+vp.intro.Disolve = function(fnRender, ctx, cX, cY, width, height)
+{
+    var me = this;
+    var fnShuffle = function(o)
+    {
+        for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o
+    };
+
+    var pixelSize = 1;
+
+    // limit clipping path length; chrome has a limitation.
+    while (width * height / pixelSize > 50000)
+    {
+        pixelSize++;
+    }
+
+    var order = [];
+    for (var i = 1; i <= (height * 1.2); i++)
+    {
+        for (var j = 1; j <= width; j++)
+        {
+            if (i % pixelSize == 1 && j % pixelSize == 1)
+            {
+                order.push([i, j]);
+            }
+        }
+    }
+    order = fnShuffle(order);
+
+    var visible = [];
+
+    this.step = function()
+    {
+
+        ctx.save();
+        ctx.translate(cX, cY)
+
+        if (order.length != 0)
+        {
+            var batchSize = 200;
+            for (var i = 0; i < batchSize && order.length; i++)
+            {
+                visible.push(order.pop());
+            }
+
+            ctx.beginPath();
+            for (var i = 0; i < visible.length; i++)
+            {
+                ctx.rect(visible[i][1], visible[i][0], pixelSize, pixelSize);
             }
             ctx.clip();
         }

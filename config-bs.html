@@ -47,6 +47,46 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+ <script type="text/javascript" src="animation.js"></script>
+ <script type="text/javascript" src="rendering.js"></script>
+  <script type="application/javascript">
+      vp.intro.draw = function()
+      {
+          var canvas = document.getElementById("canvas");
+          if (canvas.getContext)
+          {
+              var ctx = canvas.getContext("2d");
+              ctx.save();
+              vp.intro.timeIndex++;
+              
+	      if(vp.intro.viewImage)
+	      { 
+		      vp.intro.addImage(ctx, "http://www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png", 100, 100);
+	      }
+	      vp.intro.addText(ctx, vp.intro.text, 200, 200);
+
+
+              var renderText = function()
+              {
+                  ctx.fillText(sText, 0, 0);
+              };
+
+		      setTimeout(vp.intro.draw, 30);
+          }
+      };  
+vp.intro.viewImage = false;
+vp.intro.text = "";
+vp.intro.animation = 0;
+
+	vp.intro.previewCanvas = function()
+	{
+  		vp.intro.text = $('#usertext').val();
+  		vp.intro.animation =  $('input:radio[name=animationo]:checked').val();
+  		vp.intro.viewImage =  $('input:radio[name=imageo]:checked').val() == "1";
+		vp.intro.draw();
+	}
+	
+  </script>  
 
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="assets/ico/favicon.ico">
@@ -56,7 +96,7 @@
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
   </head>
 
-  <body>    
+ <body onload="">  
   	<div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -141,7 +181,8 @@
 
         </div><!--/span-->
         <div class="span7">
-        	Preview goes here
+   <canvas id="canvas" width="500" height="300"></canvas>  
+        	
 				</div>
 			</div> <!--row-->
 			<br>
@@ -182,10 +223,6 @@
 		<script>
 				$("#accordion").accordion({autoHeight: false});
 				$("#preview, #fillimage, #fillbackground, #fillmusic").button();
-				$('#preview').bind('click', function() {
-  				alert('User text is ' + $('#usertext').val());
-  				alert('Value of radio button is ' + $('input:radio[name=animationo]:checked').val()	)
-				});
 				$('#image-01').bind('click', function () {
 					$('#imageurl').removeAttr('disabled');
 				})

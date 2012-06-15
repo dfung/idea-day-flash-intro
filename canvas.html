@@ -9,8 +9,8 @@
  <script type="text/javascript" src="animation.js"></script>
 
   <script type="application/javascript">
-      var blinds1, blinds2;
-
+      var blinds1, blinds2, blinds3;
+      var disolve1, disolve2, disolve3;
       vp.intro.draw = function()
       {
           var canvas = document.getElementById("canvas");
@@ -31,8 +31,8 @@
 
               ctx.save();
               vp.intro.timeIndex++;
-              
-              
+
+
               ctx.font = "20px Chango";
               ctx.fillStyle = "Black";
 
@@ -44,14 +44,8 @@
                   ctx.fillText(sText, 0, 0);
               };
               //console.log(textWidth);
-              vp.intro.spinInPlace(fnRender, ctx, 100, 100, textWidth.width, 20);
 
-              vp.intro.spinY(fnRender, ctx, 200, 200, textWidth.width, 20);
-
-              vp.intro.Yoyo(fnRender, ctx, 150, 150, textWidth.width, 20);
-
-              vp.intro.flyIn(fnRender, ctx, 350, 150, textWidth.width, 20);
-              vp.intro.zoom(fnRender, ctx, 250, 150, textWidth.width, 20);
+              vp.intro.fadeIn(fnRender, ctx, 50, 50, textWidth.width, 20);
 
               var image = new Image();
               image.src = "http://c.www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png";
@@ -60,7 +54,6 @@
               {
                   ctx.drawImage(image, 0, -image.height);
               };
-
 
               vp.intro.spinInPlace(fnRender, ctx, 320, 100, image.width, image.height);
 
@@ -78,6 +71,53 @@
               {
                   blinds2.step();
               }
+
+              if (!disolve2)
+              {
+                  disolve2 = new vp.intro.Disolve(fnRender, ctx, 0, 350, image.width, image.height);
+                  disolve2.step();
+              }
+              else
+              {
+                  disolve2.step();
+              }
+
+              var image2 = new Image();
+              image2.src = "http://i133.photobucket.com/albums/q62/ryannayrpics/celtics.png";
+              var fnRender = function()
+              {
+                  ctx.drawImage(image2, 0, -image2.height);
+              };
+
+              vp.intro.spinInPlace(fnRender, ctx, 320, 420, image2.width, image2.height);
+
+              vp.intro.spinY(fnRender, ctx, 150, 650, image2.width, image2.height);
+
+              vp.intro.Yoyo(fnRender, ctx, 670, 820, image2.width, image2.height);
+
+              vp.intro.flyIn(fnRender, ctx, 850, 250, image2.width, image2.height);
+
+              if (!blinds3)
+              {
+                  blinds3 = new vp.intro.Blinds(fnRender, ctx, 700, 500, image2.width, image2.height);
+                  blinds3.step();
+              }
+              else
+              {
+                  blinds3.step();
+              }
+
+              if (!disolve3)
+              {
+                  disolve3 = new vp.intro.Disolve(fnRender, ctx, 700, 700, image2.width, image2.height);
+                  disolve3.step();
+              }
+              else
+              {
+                  disolve3.step();
+              }
+
+              vp.intro.fadeIn(fnRender, ctx, 950, 450, image2.width, image2.height);
 
               var fnRender = function()
               {
@@ -106,6 +146,16 @@
               else
               {
                   blinds1.step();
+              }
+
+              if (!disolve1)
+              {
+                  disolve1 = new vp.intro.Disolve(fnRender, ctx, 200, 350, textWidth.width, 150);
+                  disolve1.step();
+              }
+              else
+              {
+                  disolve1.step();
               }
               setTimeout(vp.intro.draw, 30);
           }
