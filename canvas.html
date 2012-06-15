@@ -9,6 +9,8 @@
  <script type="text/javascript" src="animation.js"></script>
 
   <script type="application/javascript">
+      var blinds1, blinds2;
+
       vp.intro.draw = function()
       {
           var canvas = document.getElementById("canvas");
@@ -67,7 +69,15 @@
               vp.intro.Yoyo(fnRender, ctx, 370, 150, image.width, image.height);
 
               vp.intro.flyIn(fnRender, ctx, 450, 200, image.width, image.height);
-
+              if (!blinds2)
+              {
+                  blinds2 = new vp.intro.Blinds(fnRender, ctx, 0, 150, image.width, image.height);
+                  blinds2.step();
+              }
+              else
+              {
+                  blinds2.step();
+              }
 
               var fnRender = function()
               {
@@ -85,6 +95,18 @@
 
               vp.intro.flyIn(fnRender, ctx, 650, 150, textWidth.width, 20);
 
+              ctx.fillStyle = "Red";
+              ctx.font = "80px Yesteryear";
+              textWidth = ctx.measureText(sText);
+              if (!blinds1)
+              {
+                  blinds1 = new vp.intro.Blinds(fnRender, ctx, 0, 350, textWidth.width, 150);
+                  blinds1.step();
+              }
+              else
+              {
+                  blinds1.step();
+              }
               setTimeout(vp.intro.draw, 30);
           }
       }  
@@ -92,7 +114,7 @@
  </head>  
  <body onload="setTimeout(vp.intro.draw, 20);">  
    <canvas id="canvas" width="2000" height="1000"></canvas>  
-   <!-- <audio autoplay="autoplay" src="http://square-peach.com/samples/xmp3Player-mini/Jazz/Manhattan-SAMPLE.mp3" /> -->
+   <audio autoplay="autoplay" src="http://square-peach.com/samples/xmp3Player-mini/Jazz/Manhattan-SAMPLE.mp3" /> 
 
    <!-- Needed to preload web font to work with canvas.  Note delay on initial vp.intro.draw -->
     <div style="font-family:Chango, Yesteryear;visibility:hidden;width:0;height:0;">
