@@ -4,7 +4,10 @@
  <!-- Test comment -->
  <head>  
  <link href='http://fonts.googleapis.com/css?family=Chango' rel='stylesheet' type='text/css'>
+ <link href='http://fonts.googleapis.com/css?family=Yesteryear' rel='stylesheet' type='text/css'>
+
  <script type="text/javascript" src="animation.js"></script>
+
   <script type="application/javascript">
       vp.intro.draw = function()
       {
@@ -26,8 +29,8 @@
 
               ctx.save();
               vp.intro.timeIndex++;
-
-
+              
+              
               ctx.font = "20px Chango";
               ctx.fillStyle = "Black";
 
@@ -65,6 +68,23 @@
 
               vp.intro.flyIn(fnRender, ctx, 450, 200, image.width, image.height);
 
+
+              var fnRender = function()
+              {
+                  ctx.fillText(sText, 0, 0);
+              };
+
+              ctx.font = "20px Yesteryear";
+              textWidth = ctx.measureText(sText);
+
+              vp.intro.spinInPlace(fnRender, ctx, 400, 100, textWidth.width, 20);
+
+              vp.intro.spinY(fnRender, ctx, 200, 600, textWidth.width, 20);
+
+              vp.intro.Yoyo(fnRender, ctx, 450, 150, textWidth.width, 20);
+
+              vp.intro.flyIn(fnRender, ctx, 650, 150, textWidth.width, 20);
+
               setTimeout(vp.intro.draw, 30);
           }
       }  
@@ -75,7 +95,7 @@
    <!-- <audio autoplay="autoplay" src="http://square-peach.com/samples/xmp3Player-mini/Jazz/Manhattan-SAMPLE.mp3" /> -->
 
    <!-- Needed to preload web font to work with canvas.  Note delay on initial vp.intro.draw -->
-    <div style="font-family:Chango;visibility:hidden;width:0;height:0;">
+    <div style="font-family:Chango, Yesteryear;visibility:hidden;width:0;height:0;">
  Test
  </div>
 
