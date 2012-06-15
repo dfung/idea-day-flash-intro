@@ -55,6 +55,7 @@ vp.intro.zoom = function(fnRender, ctx, cX, cY, width, height)
 	ctx.translate(cX, cY);
 	var scaledVal = Math.min(vp.intro.timeIndex * 0.03, 1);
 	ctx.scale(scaledVal, scaledVal);
+	ctx.translate(0, height);
 	fnRender();
 	ctx.restore();
 };
@@ -86,6 +87,7 @@ vp.intro.fadeIn = function(fnRender, ctx, cX, cY, width, height)
 	ctx.translate(cX, cY);
 
 	ctx.globalAlpha = Math.min(vp.intro.timeIndex * 0.01, 1);
+	ctx.translate(0, height);
 	fnRender();
 	ctx.restore();
 };
