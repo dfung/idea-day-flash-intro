@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-		<link rel=stylesheet type=text/css href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/ui-darkness/jquery-ui.css"> 
+		<link rel=stylesheet type=text/css href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/smoothness/jquery-ui.css"> 
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -36,7 +36,10 @@
 			padding-left: 25px;
 		}
 		}
-		
+		span .ui-button {
+			font-size : 100px;
+		}
+		}
     </style>
     <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -87,30 +90,49 @@
 					  <div class=animatetitle>Want an image?</div>
 				    <form action="#" method="get" accept-charset="utf-8">
 				    	<div class="animationdiv">
-			            <label class=animlabel ><input class=animradio name="imageo" id="image-01" value="1" type="radio" />Yes</label><br>
-			            <label class=animlabel ><input class=animradio name="imageo" id="image-01" value="2" type="radio" checked />No</label></br>
+			            <label class=animlabel ><input class=animradio name="imageo" id="image-01" value="1" type="radio" />Yes</label>
+			            <input id="imageurl" disabled=true type="text"></input><span id="fillimage">&lt;</span>	
+			            <label class=animlabel ><input class=animradio name="imageo" id="image-02" value="2" type="radio" checked />No</label></br>
 							</div>
 						</form>
 				</div>
 				<h1><a>Background</a></h1>
-					<div>Contents of the Background tab</div>
+				<div>
+					  <div class=animatetitle>Want a background?</div>
+				    <form action="#" method="get" accept-charset="utf-8">
+				    	<div class="animationdiv">
+			            <label class=animlabel ><input class=animradio name="backgroundo" id="background-01" value="1" type="radio" />Yes</label>
+			            <input id="backgroundurl" disabled=true type="text"></input><span id="fillbackground">&lt;</span>
+			            <label class=animlabel ><input class=animradio name="backgroundo" id="background-02" value="2" type="radio" checked />No</label></br>
+							</div>
+						</form>
+				</div>
 				<h1><a>Sound</a></h1>
-					<div>Contents of the Sound tab</div>
+					<div>
+					  <div class=animatetitle>Play music?</div>
+				    <form action="#" method="get" accept-charset="utf-8">
+				    	<div class="animationdiv">
+			            <label class=animlabel ><input class=animradio name="musico" id="music-01" value="1" type="radio" />Yes</label>
+			            <input id="musicurl" disabled=true type="text"></input><span id="fillmusic">&lt;</span>
+			            <label class=animlabel ><input class=animradio name="musico" id="music-02" value="2" type="radio" checked />No</label></br>
+							</div>
+						</form>
+					</div>
 				<h1><a>Animation</a></h1>
 				<div>
 					  <div class=animatetitle>Choose Animation</div>
 				    <form action="#" method="get" accept-charset="utf-8">
 				    	<div class="animationdiv">
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="1" type="radio" checked />Dissolve</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="2" type="radio"  />Spin</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="3" type="radio"  />Random Bars</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="4" type="radio"  />Random</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-02" value="2" type="radio"  />Spin</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-03" value="3" type="radio"  />Fly-in</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-04" value="4" type="radio"  />Yoyo</label><br>
 							</div>
 				    	<div class="animationdiv">
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="5" type="radio"  />Zoom</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="6" type="radio"  />Swivel</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="7" type="radio"  />Blinds</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="8" type="radio"  />None</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-05" value="5" type="radio"  />Zoom</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-06" value="6" type="radio"  />Spin Vertical</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-07" value="7" type="radio"  />Blinds</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-08" value="8" type="radio"  />None</label><br>
 							</div>							
 			    </form>
 				</div>						
@@ -159,11 +181,32 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
 		<script>
 				$("#accordion").accordion({autoHeight: false});
-				$("#preview").button();
+				$("#preview, #fillimage, #fillbackground, #fillmusic").button();
 				$('#preview').bind('click', function() {
   				alert('User text is ' + $('#usertext').val());
   				alert('Value of radio button is ' + $('input:radio[name=animationo]:checked').val()	)
 				});
+				$('#image-01').bind('click', function () {
+					$('#imageurl').removeAttr('disabled');
+				})
+				$('#image-02').bind('click', function () {
+					$('#imageurl').attr('disabled', true);
+				})		
+				$('#background-01').bind('click', function () {
+					$('#backgroundurl').removeAttr('disabled');
+				})
+				$('#background-02').bind('click', function () {
+					$('#backgroundurl').attr('disabled', true);
+				})			
+				$('#music-01').bind('click', function () {
+					$('#musicurl').removeAttr('disabled');
+				})
+				$('#music-02').bind('click', function () {
+					$('#musicurl').attr('disabled', true);
+				})			
+				$('#fillimage').bind('click', function () {
+					$('#imageurl').val("http://c.www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png");
+				})		
 		</script>
   </body>
 </html>
