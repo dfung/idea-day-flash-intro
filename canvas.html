@@ -10,7 +10,7 @@
 
   <script type="application/javascript">
       var blinds1, blinds2, blinds3;
-
+      var disolve1, disolve2, disolve3;
       vp.intro.draw = function()
       {
           var canvas = document.getElementById("canvas");
@@ -72,6 +72,16 @@
                   blinds2.step();
               }
 
+              if (!disolve2)
+              {
+                  disolve2 = new vp.intro.Disolve(fnRender, ctx, 0, 350, image.width, image.height);
+                  disolve2.step();
+              }
+              else
+              {
+                  disolve2.step();
+              }
+
               var image2 = new Image();
               image2.src = "http://i133.photobucket.com/albums/q62/ryannayrpics/celtics.png";
               var fnRender = function()
@@ -95,6 +105,16 @@
               else
               {
                   blinds3.step();
+              }
+
+              if (!disolve3)
+              {
+                  disolve3 = new vp.intro.Disolve(fnRender, ctx, 700, 700, image2.width, image2.height);
+                  disolve3.step();
+              }
+              else
+              {
+                  disolve3.step();
               }
 
               vp.intro.fadeIn(fnRender, ctx, 950, 450, image2.width, image2.height);
@@ -126,6 +146,16 @@
               else
               {
                   blinds1.step();
+              }
+
+              if (!disolve1)
+              {
+                  disolve1 = new vp.intro.Disolve(fnRender, ctx, 200, 350, textWidth.width, 150);
+                  disolve1.step();
+              }
+              else
+              {
+                  disolve1.step();
               }
               setTimeout(vp.intro.draw, 30);
           }
