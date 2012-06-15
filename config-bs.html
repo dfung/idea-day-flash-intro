@@ -47,41 +47,97 @@
  <script type="text/javascript" src="animation.js"></script>
  <script type="text/javascript" src="rendering.js"></script>
   <script type="application/javascript">
+      var drawTimeout;
+      var dissolve;
       vp.intro.draw = function()
       {
           var canvas = document.getElementById("canvas");
           if (canvas.getContext)
           {
               var ctx = canvas.getContext("2d");
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+
               ctx.save();
               vp.intro.timeIndex++;
-              
-	      if(vp.intro.viewImage)
-	      { 
-		      vp.intro.addImage(ctx, "http://www.vphosted.com/sf/_sv-24.9/_hc-2494/_/vp/images/b09/logo/vistaprint-logo-03.png", 100, 100);
-	      }
-	      vp.intro.addText(ctx, vp.intro.text, 200, 200);
 
+              if (vp.intro.viewImage)
+              {
+                  var img = vp.intro.addImage(ctx, "http://i133.photobucket.com/albums/q62/ryannayrpics/celtics.png", 0, 439);
+              }
+
+              if (img)
+              {
+                  ctx.translate(img.width + 10, 0);
+              }
 
               var renderText = function()
               {
-                  ctx.fillText(sText, 0, 0);
+                  ctx.fillText(vp.intro.text, 0, 0);
               };
 
-		      setTimeout(vp.intro.draw, 30);
+              var y = 200;
+              var fontSize = 100;
+              ctx.font = "100px Chango";
+              ctx.fillStyle = "Black";
+              var textWidth = ctx.measureText(vp.intro.text);
+
+              switch (vp.intro.animation)
+              {
+                  case "dissolve":
+                      if (!dissolve)
+                      {
+                          dissolve = new vp.intro.Disolve(renderText, ctx, 0, y, textWidth.width, fontSize);
+                          dissolve.step();
+                      }
+                      else
+                      {
+                          dissolve.step();
+                      }
+                      break;
+                  case "spin":
+                      vp.intro.spinY(renderText, ctx, textWidth.width / 2, y, textWidth.width, fontSize);
+                      break;
+                  case "zoom":
+                      vp.intro.zoom(renderText, ctx, textWidth.width / 2, y, textWidth.width, fontSize);
+                      break;
+                  case "blinds":
+                      if (!dissolve)
+                      {
+                          dissolve = new vp.intro.Blinds(renderText, ctx, 0, y, textWidth.width, fontSize);
+                          dissolve.step();
+                      }
+                      else
+                      {
+                          dissolve.step();
+                      }
+                      break;
+                  default:
+                      vp.intro.addText(ctx, vp.intro.text, 0, y);
+                      break;
+              }
+
+
+
+              ctx.restore();
+
+              drawTimeout = setTimeout(vp.intro.draw, 30);
           }
       };  
 vp.intro.viewImage = false;
 vp.intro.text = "";
 vp.intro.animation = 0;
 
-	vp.intro.previewCanvas = function()
-	{
-  		vp.intro.text = $('#usertext').val();
-  		vp.intro.animation =  $('input:radio[name=animationo]:checked').val();
-  		vp.intro.viewImage =  $('input:radio[name=imageo]:checked').val() == "1";
-		vp.intro.draw();
-	}
+vp.intro.previewCanvas = function()
+{
+    vp.intro.text = $('#usertext').val();
+    vp.intro.animation = $('input:radio[name=animationo]:checked').val();
+    vp.intro.viewImage = $('input:radio[name=imageo]:checked').val() == "1";
+
+    dissolve = null;
+    vp.intro.timeIndex = 0;
+    clearTimeout(drawTimeout);
+    vp.intro.draw();
+}
 	
   </script>  
 
@@ -141,15 +197,15 @@ vp.intro.animation = 0;
 					  <div class=animatetitle>Choose Animation</div>
 				    <form action="#" method="get" accept-charset="utf-8">
 				    	<div class="animationdiv">
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="1" type="radio" checked />Dissolve</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="2" type="radio"  />Spin</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="dissolve" type="radio" checked />Dissolve</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="spin" type="radio"  />Spin</label><br>
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="3" type="radio"  />Random Bars</label><br>
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="4" type="radio"  />Random</label><br>
 							</div>
 				    	<div class="animationdiv">
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="5" type="radio"  />Zoom</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="zoom" type="radio"  />Zoom</label><br>
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="6" type="radio"  />Swivel</label><br>
-			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="7" type="radio"  />Blinds</label><br>
+			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="blinds" type="radio"  />Blinds</label><br>
 			            <label class=animlabel ><input class=animradio name="animationo" id="radio-01" value="8" type="radio"  />None</label><br>
 							</div>							
 			    </form>
@@ -159,7 +215,7 @@ vp.intro.animation = 0;
 
         </div><!--/span-->
         <div class="span7">
-   <canvas id="canvas" width="500" height="300"></canvas>  
+   <canvas id="canvas" width="1600" height="500"></canvas>  
         	
 				</div>
 			</div> <!--row-->

@@ -154,7 +154,7 @@ vp.intro.Disolve = function(fnRender, ctx, cX, cY, width, height)
     var pixelSize = 1;
 
     // limit clipping path length; chrome has a limitation.
-    while (width * height / pixelSize > 50000)
+    while (width * height / pixelSize > 15000)
     {
         pixelSize++;
     }
@@ -164,7 +164,7 @@ vp.intro.Disolve = function(fnRender, ctx, cX, cY, width, height)
     {
         for (var j = 1; j <= width; j++)
         {
-            if (i % pixelSize == 1 && j % pixelSize == 1)
+            if (pixelSize == 1 || i % pixelSize == 1 && j % pixelSize == 1)
             {
                 order.push([i, j]);
             }
